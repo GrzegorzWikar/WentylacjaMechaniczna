@@ -1,4 +1,6 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
+using GradientStop = Microsoft.Maui.Controls.GradientStop;
+using System.Windows;
 
 namespace WentylacjaMechaniczna
 {
@@ -46,6 +48,7 @@ namespace WentylacjaMechaniczna
                 Label label = new() {
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
+                    FontFamily = "Calibri",
                     Text = header,
                     TextColor = Colors.White,
                 };
@@ -63,12 +66,20 @@ namespace WentylacjaMechaniczna
         {
             Border mainBorder = new Border()
             {
-                Stroke = Colors.DarkGoldenrod,
-                BackgroundColor = Colors.DarkBlue,
+                Stroke = new LinearGradientBrush
+                {
+                    EndPoint = new Point(0, 1),
+                    GradientStops = new GradientStopCollection
+                    {
+                        new GradientStop { Color = Color.FromArgb("#F0B651"), Offset = 0.1f },
+                        new GradientStop { Color = Color.FromArgb("#F051CB"), Offset = 1.0f }
+                    }
+                },
+                BackgroundColor = Color.FromArgb("#519EF0"),
                 StrokeThickness = 4,
                 StrokeShape = new RoundRectangle
                 {
-                    CornerRadius = new CornerRadius(40, 0, 0, 40)
+                    CornerRadius = new CornerRadius(20)
                 }
               ,
                 Padding = new Thickness(16, 8),
