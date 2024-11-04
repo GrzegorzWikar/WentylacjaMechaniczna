@@ -4,40 +4,5 @@
              x:Class="WentylacjaMechaniczna.MainPage"
              Title="Wentylacja Mechaniczna">
 
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Border Stroke="#C49B33"
-        StrokeThickness="4"
-        StrokeShape="RoundRectangle 40,0,0,40"
-        Background="#2B0B98"
-        Padding="16,8"
-        HorizontalOptions="Center">
-            <Label Text="L.P" TextColor="White"/>
-        </Border>
-        <Label Grid.Column="1" Text="Nazwa Pomieszczenia" />
-            <Label Grid.Column="2" Text="Powierzchnia [m2]" />
-            <Label Grid.Column="3" Text="Wysokosc pomieszczenia [m]"/>
-            <Label Grid.Column="4" Text="Kubatura [m3]"/>
-            <Label Grid.Column="5" Text="Wymian [1/h]"/>
-            <Label Grid.Column="6" Text="Obliczeniowy strumien powietrza nawiewanego [m3/h]"/>
-            <Label Grid.Column="7" Text="Obliczeniowy strumien powietrza wywiewanego [m3/h]"/>
-            <Label Grid.Column="8" Text="Przyjety strumien powietrza nawiewanego [m3/h]"/>
-            <Label Grid.Column="9" Text="Przyjety strumien powietrza wywiewanego [m3/h]"/>
-    </Grid>
 </ContentPage>
 
