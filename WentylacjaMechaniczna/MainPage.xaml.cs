@@ -1,6 +1,5 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
 using GradientStop = Microsoft.Maui.Controls.GradientStop;
-using System.Windows;
 
 namespace WentylacjaMechaniczna
 {
@@ -12,17 +11,22 @@ namespace WentylacjaMechaniczna
         {
             InitializeComponent();
 
+
             ColumnDefinitionCollection columns = new ColumnDefinitionCollection();
             RowDefinitionCollection rows = new RowDefinitionCollection();
+            HorizontalStackLayout menagmentBar = new HorizontalStackLayout();
+
             foreach (string column in TableHeaders)
             {
                 columns.Add(new ColumnDefinition());
-                rows.Add(new RowDefinition());
             }
 
-            rows[0].Height = 100;
-            columns[0].Width = 60;
+            RowDefinition row = new RowDefinition();
+            rows.Add(row);
 
+            columns[0].Width = 60;
+            VerticalStackLayout mainVertical = new VerticalStackLayout();
+            mainVertical.VerticalOptions = LayoutOptions.Start;
             Grid mainGrid = new Grid()
             {
                 ColumnDefinitions = columns,
@@ -30,16 +34,45 @@ namespace WentylacjaMechaniczna
             };
 
             mainGrid.Margin = 5;
+            mainVertical.Add(menagmentBar);
+
+            mainVertical.Add(mainGrid);
+
+            
+            Button button = new Button();
+            button.Text = "Kliknij mnie chuju";
+            button.Clicked += (s, e) =>  NewRow();
+
+            menagmentBar.Add(button);
+
+
+            void NewRow()
+            {
+                HorizontalStackLayout row = [];
+                int rowCount = mainGrid.RowDefinitions.Count;
+                foreach (string header in TableHeaders)
+                {
+                    int columnId = Array.IndexOf(TableHeaders, header);
+
+                    Border cellBorder = newBorder();
+
+                    cellBorder.Content = new Entry();
+
+                    row.Add(cellBorder);
+
+                    mainGrid.Add(row, columnId, rowCount);
+                }
+            }
 
             HorizontalStackLayout tableHeaders = [];
             tableHeaders.VerticalOptions = LayoutOptions.Start;
-            HorizontalStackLayout tableRow = [];
+            tableHeaders.HorizontalOptions = LayoutOptions.Fill;
+            RowDefinition rowTableHeaders = new RowDefinition();
+            rows.Add(rowTableHeaders);
 
-
-            mainGrid.Add(tableHeaders);
-            mainGrid.Add(tableRow);
-           
-
+            mainGrid.Add(tableHeaders, 0, 1);
+            
+            //Naglowki
             foreach (string header in TableHeaders)
             {
                 
@@ -56,10 +89,9 @@ namespace WentylacjaMechaniczna
                 headerBorder.Content = label;
             
                 mainGrid.Add(headerBorder, Array.IndexOf(TableHeaders,header), 0);
-
             }
 
-            Content = mainGrid;
+            Content = mainVertical;
         }
 
         private Border newBorder()
@@ -83,7 +115,9 @@ namespace WentylacjaMechaniczna
                 }
               ,
                 Padding = new Thickness(16, 8),
-                HorizontalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions= LayoutOptions.Fill,
+                MaximumHeightRequest = 100,
             };
 
             return mainBorder;
