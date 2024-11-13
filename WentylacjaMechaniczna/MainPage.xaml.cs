@@ -7,78 +7,73 @@ namespace WentylacjaMechaniczna
     {
         string[] TableHeaders = ["L.P", "Nazwa Pomieszczenia", "Powierzchnia [m2]", "Wysokosc pomieszczenia", "Kubatura [m3]", "Krotnosc Wymian [1/h]", "Obliczeniowy strumien powietrza nawiewanego [m3/h]", "Obliczeniowy strumien powietrza wywiewanego [m3/h]", "Przyjety strumien powietrza nawiewanego [m3/h]", "Przyjety strumien powietrza wywiewanego [m3/h]"];
 
+        public VerticalStackLayout MainVeiw = [];
+        public HorizontalStackLayout OperationBar = [];
+        public Grid Table = [];
+        
         public MainPage()
         {
             InitializeComponent();
 
-
-            ColumnDefinitionCollection columns = new ColumnDefinitionCollection();
-            RowDefinitionCollection rows = new RowDefinitionCollection();
-            HorizontalStackLayout menagmentBar = new HorizontalStackLayout();
-
-            foreach (string column in TableHeaders)
-            {
-                columns.Add(new ColumnDefinition());
-            }
-
-            RowDefinition row = new RowDefinition();
-            rows.Add(row);
-
-            columns[0].Width = 60;
-            VerticalStackLayout mainVertical = new VerticalStackLayout();
-            mainVertical.VerticalOptions = LayoutOptions.Start;
-            Grid mainGrid = new Grid()
-            {
-                ColumnDefinitions = columns,
-                RowDefinitions = rows,
-            };
-
-            mainGrid.Margin = 5;
-            mainVertical.Add(menagmentBar);
-
-            mainVertical.Add(mainGrid);
+            Content = MainVeiw;
+            MainVeiw.Add(OperationBar);
+            MainVeiw.Add(Table);
+            addTableHeaders();
+            Table.Margin = 5;
 
             
             Button button = new Button();
-            button.Text = "Kliknij mnie chuju";
-            button.Clicked += (s, e) =>  NewRow();
+            button.Text = "AddRoom";
+            button.Clicked += NewRoom_Clicked;
 
-            menagmentBar.Add(button);
+            OperationBar.Add(button);
+        }
 
+        private void NewRoom_Clicked(object? sender, EventArgs e)
+        {
+            int rowCount = Table.RowDefinitions.Count + 1;
 
-            void NewRow()
-            {
-                HorizontalStackLayout row = [];
-                int rowCount = mainGrid.RowDefinitions.Count;
-                foreach (string header in TableHeaders)
-                {
-                    int columnId = Array.IndexOf(TableHeaders, header);
-
-                    Border cellBorder = newBorder();
-
-                    cellBorder.Content = new Entry();
-
-                    row.Add(cellBorder);
-
-                    mainGrid.Add(row, columnId, rowCount);
-                }
-            }
-
-            HorizontalStackLayout tableHeaders = [];
-            tableHeaders.VerticalOptions = LayoutOptions.Start;
-            tableHeaders.HorizontalOptions = LayoutOptions.Fill;
-            RowDefinition rowTableHeaders = new RowDefinition();
-            rows.Add(rowTableHeaders);
-
-            mainGrid.Add(tableHeaders, 0, 1);
-            
-            //Naglowki
             foreach (string header in TableHeaders)
             {
-                
+                Border cellBorder = newBorder();
+
+                switch (header)
+                {
+                    case "L.P":
+
+                        Label label = new Label() 
+                        {
+                            Text = rowCount.ToString()
+                        };
+
+                        cellBorder.Content = label;
+
+                        break;
+                }
+
+                Table.SetRow(cellBorder, rowCount);
+                Table.SetColumn(cellBorder, Array.IndexOf(TableHeaders, header));
+
+                int rowTest = Table.RowDefinitions.Count;
+            }
+        }
+
+        private void addTableHeaders()
+        {
+            RowDefinitionCollection rows= new RowDefinitionCollection();
+            RowDefinition row = new RowDefinition();
+            ColumnDefinitionCollection columns = new ColumnDefinitionCollection();
+            ColumnDefinition columnDefinition = new ColumnDefinition();
+            rows.Add(row);
+
+            foreach (string header in TableHeaders)
+            {
+
+                columns.Add(columnDefinition);
                 Border headerBorder = newBorder();
 
-                Label label = new() {
+                Label label = new()
+                {
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     FontFamily = "Calibri",
@@ -87,11 +82,11 @@ namespace WentylacjaMechaniczna
                 };
 
                 headerBorder.Content = label;
-            
-                mainGrid.Add(headerBorder, Array.IndexOf(TableHeaders,header), 0);
+
+                Table.Add(headerBorder, Array.IndexOf(TableHeaders, header), 0);
             }
 
-            Content = mainVertical;
+            Table.ColumnDefinitions[0].Width = 60;
         }
 
         private Border newBorder()
