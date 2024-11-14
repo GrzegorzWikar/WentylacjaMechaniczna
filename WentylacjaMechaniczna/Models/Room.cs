@@ -5,25 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WentylacjaMechaniczna
+namespace WentylacjaMechaniczna.Models
 {
-    class Room
+    public class Room
     {
-        public Room(string name, decimal surfaceM2, decimal roomHight)
-        {
-            Name = name;
-            SurfaceM2 = surfaceM2;
-            RoomHeight = roomHight;
-            Cubage = SurfaceM2 * RoomHeight;
-            Exchanges = 1;
-            DesignSupplyAirFlowRate = Cubage * Exchanges;
-            DesignExhaustAirFlowRate = Cubage * Exchanges;
-            AssumedSupplyAirFlowRate = null;
-            AssumedExhaustAirFlowRate = null;
-        }
-
         [Required]
-        public string Name { get; set; }
+        public int Id { get; set; }
+        [Required]
+        public string Name = "Nazwa Pomieszczenia";
         [Required]
         public decimal SurfaceM2 { get; set; }
         [Required]

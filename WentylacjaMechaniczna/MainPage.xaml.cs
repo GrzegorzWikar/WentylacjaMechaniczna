@@ -1,5 +1,7 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
 using GradientStop = Microsoft.Maui.Controls.GradientStop;
+using WentylacjaMechaniczna.Models;
+using System.Data.Common;
 
 namespace WentylacjaMechaniczna
 {
@@ -9,24 +11,48 @@ namespace WentylacjaMechaniczna
 
         public VerticalStackLayout MainVeiw = [];
         public HorizontalStackLayout OperationBar = [];
-        public Grid Table = [];
-        
+        public ListView Table = new ();
+        public List<Floor> Floors = new List<Floor> ();
         public MainPage()
         {
             InitializeComponent();
-
             Content = MainVeiw;
-            MainVeiw.Add(OperationBar);
-            MainVeiw.Add(Table);
+
+            Table.SetBinding(ItemsView.ItemsSourceProperty, "Floor");
+            DataTemplate dataTemplate = new DataTemplate();
+            ViewCell cell = new ViewCell();
+            Table.ItemTemplate = dataTemplate;
+            HorizontalStackLayout views = new HorizontalStackLayout();
+            cell.AddLogicalChild(views);
+
+           
             addTableHeaders();
+
             Table.Margin = 5;
 
-            
-            Button button = new Button();
-            button.Text = "AddRoom";
-            button.Clicked += NewRoom_Clicked;
+            Button addRoom = new Button();
+            addRoom.Text = "Add Room";
+            addRoom.Clicked += NewRoom_Clicked;
 
-            OperationBar.Add(button);
+            OperationBar.Add(addRoom);
+
+            Button addFloor = new Button();
+            addFloor.Text = "Add Floor";
+            addFloor.Clicked += AddFloor_Clicked;
+
+        }
+
+        private void AddFloor_Clicked(object? sender, EventArgs e)
+        {
+            VerticalStackLayout newFloor = new VerticalStackLayout();
+            Table.Add(newFloor);
+            Table.
+
+            Entry floorName = new Entry();
+            floorName.Text = "Nazwa Kondgnacji";
+            floorName.IsEnabled = true;
+
+
         }
 
         private void NewRoom_Clicked(object? sender, EventArgs e)
@@ -51,25 +77,14 @@ namespace WentylacjaMechaniczna
                         break;
                 }
 
-                Table.SetRow(cellBorder, rowCount);
-                Table.SetColumn(cellBorder, Array.IndexOf(TableHeaders, header));
-
-                int rowTest = Table.RowDefinitions.Count;
-            }
+                Table.Add(cellBorder, Array.IndexOf(TableHeaders,header), rowCount);
+            };
         }
 
         private void addTableHeaders()
-        {
-            RowDefinitionCollection rows= new RowDefinitionCollection();
-            RowDefinition row = new RowDefinition();
-            ColumnDefinitionCollection columns = new ColumnDefinitionCollection();
-            ColumnDefinition columnDefinition = new ColumnDefinition();
-            rows.Add(row);
-
+        { 
             foreach (string header in TableHeaders)
             {
-
-                columns.Add(columnDefinition);
                 Border headerBorder = newBorder();
 
                 Label label = new()
@@ -83,10 +98,10 @@ namespace WentylacjaMechaniczna
 
                 headerBorder.Content = label;
 
-                Table.Add(headerBorder, Array.IndexOf(TableHeaders, header), 0);
+                TableHeader.Add(headerBorder, Array.IndexOf(TableHeaders, header), 0);
             }
 
-            Table.ColumnDefinitions[0].Width = 60;
+            TableHeader.ColumnDefinitions[0].Width = 60;
         }
 
         private Border newBorder()
